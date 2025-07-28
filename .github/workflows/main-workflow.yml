@@ -15,20 +15,33 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
 
-    - name: tshirts fail
-      if: always()
-      run: |
-        cd tshirts
-        java -ea tshirts.java
+    #- name: tshirts fail
+    #  if: always()
+    #  run: |
+    #    cd tshirts
+    #    java -ea tshirts.java
 
-    - name: misaligned fail
-      if: always()
-      run: |
-        cd misaligned
-        java -ea misaligned.java
+    #- name: misaligned fail
+    #  if: always()
+    #  run: |
+    #    cd misaligned
+    #    java -ea misaligned.java
 
-    - name: weather report fail
-      if: always()
-      run: |
-        cd weatherreport
-        java -ea weatherreport.java
+    #- name: weather report fail
+    #  if: always()
+    #  run: |
+    #    cd weatherreport
+    #    java -ea weatherreport.java
+
+    - name: Build
+      run: mvn compile
+
+    - name: Run and Collect coverage
+      run: mvn test jacoco:report
+
+    - name: Upload coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage
+        path: ./target/site/jacoco
+        retention-days: 7
